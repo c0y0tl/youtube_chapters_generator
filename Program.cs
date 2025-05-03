@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using System.Windows.Forms;
 
 namespace LssToYouTubeChapters
 {
     internal class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             Console.WriteLine("Path to *.lss");
@@ -65,17 +67,24 @@ namespace LssToYouTubeChapters
             string timeFormat = Console.ReadLine();
             string timeFormatString = timeFormat == "1" ? "h':'mm':'ss" : "mm':'ss";
 
+            string clipboard = "";
+
             if (splitsName.Count == splitsRealTime.Count)
             {
                 for (int i = 0; i < splitsRealTime.Count; i++)
                 {
                     Console.WriteLine($"{TimeSpan.FromMilliseconds(splitsRealTime[i]).ToString(timeFormatString)} {splitsName[i]}");
+                    clipboard += $"{TimeSpan.FromMilliseconds(splitsRealTime[i]).ToString(timeFormatString)} {splitsName[i]}\n";
+
                 }
             }
             else
             {
                 Console.WriteLine($"Oops different list sizes. splitsName.Count={splitsName.Count} splitsRealTime.Count={splitsRealTime.Count}");
             }
+
+            Clipboard.SetData(DataFormats.Text, (Object)clipboard.Trim('\n'));
+            Console.WriteLine("The text has been successfully copied to the clipboard!");
 
             Console.ReadLine();
         }
