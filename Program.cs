@@ -84,7 +84,7 @@ namespace LssToYouTubeChapters
             }
 
             Clipboard.SetData(DataFormats.Text, (Object)clipboard.Trim('\n'));
-            Console.WriteLine("The text has been successfully copied to the clipboard!");
+            Console.WriteLine("Copied to clipboard!");
 
             Console.ReadLine();
         }
