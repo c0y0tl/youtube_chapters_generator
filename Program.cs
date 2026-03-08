@@ -2,32 +2,40 @@
 using System.Collections.Generic;
 using System.Xml;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.IO;
 
-namespace LssToYouTubeChapters
+namespace youtube_chapters_generator
 {
     internal class Program
     {
         [STAThread]
         static void Main(string[] args)
         {
-            Console.WriteLine("Path to *.lss");
-            Console.WriteLine("Drag-and-drop *lss. file and press Enter");
+            Console.WriteLine("Drag-and-Drop *.lss file and press Enter.");
             string lssPath = Console.ReadLine();
 
             XmlDocument lssDocument = new XmlDocument();
             lssDocument.Load(lssPath.Trim('"'));
 
+            XmlNodeList offsetNode = lssDocument.SelectNodes("/Run/Offset");
+            double startTimerOffset = TimeSpan.Parse(offsetNode[0].InnerText).TotalMilliseconds;
+            Console.WriteLine("Start Timer Offset (ms): " + startTimerOffset);
+
             XmlNodeList lssNodes = lssDocument.SelectNodes("/Run/Segments/Segment/Name | /Run/Segments/Segment/SplitTimes/SplitTime/RealTime");
 
             List<string> names = new List<string>();
+
             List<string> splitsName = new List<string>();
             List<double> splitsRealTime = new List<double>();
+
+            string pattern = @"^- |^{.*} ";
 
             foreach (XmlNode node in lssNodes)
             {
                 if (node.Name == "Name")
                 {
-                    names.Add(node.InnerText);
+                    names.Add(Regex.Replace(node.InnerText, pattern, ""));
                 }
                 else
                 {
@@ -37,14 +45,14 @@ namespace LssToYouTubeChapters
                 }
             }
 
-            Console.WriteLine("Offset (in ms):");
+            Console.WriteLine("Start Video Offset (ms):");
             string offsetString = Console.ReadLine();
 
             double offset = double.Parse(offsetString);
 
             for (int i = 0; i < splitsRealTime.Count; i++)
             {
-                splitsRealTime[i] += offset;
+                splitsRealTime[i] += offset - startTimerOffset;
             }
 
             if (offset == 0)

@@ -6,12 +6,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{369F7EEB-7372-450A-83C0-AB0C3E7FCC2E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>LssToYouTubeChapters</RootNamespace>
-    <AssemblyName>LssToYouTubeChapters</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>youtube_chapters_generator</RootNamespace>
+    <AssemblyName>youtube_chapters_generator</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
